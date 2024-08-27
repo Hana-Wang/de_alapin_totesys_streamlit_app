@@ -3,6 +3,11 @@ from dotenv import load_dotenv
 import os
 
 import streamlit as st
+import tableauserverclient as TSC
+
+from tableau_api_lib import TableauServerConnection
+from tableau_api_lib.utils.querying import get_views_dataframe
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -29,6 +34,8 @@ def get_connection():
             host=os.getenv("POSTGRES_HOSTNAME"),
             port=int(os.getenv("POSTGRES_PORT")),
         )
+
+
 
 # def get_connection():
 #     if st.secrets is not None:
@@ -131,6 +138,45 @@ st.dataframe(data)
 
 st.subheader("Streamlit Dashboard with Tableau Worksheets")
 
+
+def tableau_login_and_fetch():
+    # Access Tableau credentials from secrets
+    tableau_username = st.secrets["tableau"]["username"]
+    tableau_password = st.secrets["tableau"]["password"]
+    server_url = st.secrets["tableau"]["server_url"]
+    site_id = st.secrets["tableau"]["site_id"]
+
+    # Set up Tableau connection
+    config = {
+        'my_env': {
+            'server': server_url,
+            'api_version': '3.22', 
+            'username': tableau_username,
+            'password': tableau_password,
+            'site_name': site_id,
+            'site_url': site_id
+        }
+    }
+
+    conn = TableauServerConnection(config_json=config, env='my_env')
+    conn.sign_in()
+    
+    if not conn.auth_token:
+        st.error("Authentication failed! No valid auth token was returned.")
+        return None
+    # Fetch views (worksheets/dashboards)
+    views_df = get_views_dataframe(conn)
+    
+    # Close connection after fetching data
+    conn.sign_out()
+    
+    return views_df
+
+# Display the result in Streamlit
+views = tableau_login_and_fetch()
+if views is not None:
+    st.write(views)
+
 # if st.checkbox("Load Tableau Dashboard"):
 #     tableau_url = "hhttps://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
 #     st.components.v1.iframe(tableau_url, width=1200, height=800)
@@ -152,7 +198,9 @@ if st.button("Refresh Tableau Dashboard"):
 
 # tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
 
-tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard/Sheet%2015#2"
+# tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard/Sheet%2015#2"
+
+tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/views/Totesys_team_7_workbook/TotesysDashboard?:iid=3"
 
 if option == 'Yes':
     st.components.v1.iframe(tableau_url, width=1200, height=800)

@@ -3,3 +3,5 @@ pandas
 matplotlib
 pg8000
 python-dotenv
+tableauserverclient
+tableau-api-lib
