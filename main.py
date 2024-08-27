@@ -143,12 +143,12 @@ option = st.selectbox(
     ('No', 'Yes')
 )
 
-st.subheader("Refresh tableau worksheet")
-if 'refresh' not in st.session_state:
-    st.session_state.refresh = False
+# st.subheader("Refresh tableau worksheet")
+# if 'refresh' not in st.session_state:
+#     st.session_state.refresh = False
 
-if st.button("Refresh Tableau Dashboard"):
-    st.session_state.refresh = True
+# if st.button("Refresh Tableau Dashboard"):
+#     st.session_state.refresh = True
 
 tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
 
