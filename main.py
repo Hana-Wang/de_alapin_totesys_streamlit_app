@@ -139,43 +139,43 @@ st.dataframe(data)
 st.subheader("Streamlit Dashboard with Tableau Worksheets")
 
 
-def tableau_login_and_fetch():
-    # Access Tableau credentials from secrets
-    tableau_username = st.secrets["tableau"]["username"]
-    tableau_password = st.secrets["tableau"]["password"]
-    server_url = st.secrets["tableau"]["server_url"]
-    site_id = st.secrets["tableau"]["site_id"]
+# def tableau_login_and_fetch():
+#     # Access Tableau credentials from secrets
+#     tableau_username = st.secrets["tableau"]["username"]
+#     tableau_password = st.secrets["tableau"]["password"]
+#     server_url = st.secrets["tableau"]["server_url"]
+#     site_id = st.secrets["tableau"]["site_id"]
 
-    # Set up Tableau connection
-    config = {
-        'my_env': {
-            'server': server_url,
-            'api_version': '3.22', 
-            'username': tableau_username,
-            'password': tableau_password,
-            'site_name': site_id,
-            'site_url': site_id
-        }
-    }
+#     # Set up Tableau connection
+#     config = {
+#         'my_env': {
+#             'server': server_url,
+#             'api_version': '3.22', 
+#             'username': tableau_username,
+#             'password': tableau_password,
+#             'site_name': site_id,
+#             'site_url': site_id
+#         }
+#     }
 
-    conn = TableauServerConnection(config_json=config, env='my_env')
-    conn.sign_in()
+#     conn = TableauServerConnection(config_json=config, env='my_env')
+#     conn.sign_in()
     
-    if not conn.auth_token:
-        st.error("Authentication failed! No valid auth token was returned.")
-        return None
-    # Fetch views (worksheets/dashboards)
-    views_df = get_views_dataframe(conn)
+#     if not conn.auth_token:
+#         st.error("Authentication failed! No valid auth token was returned.")
+#         return None
+#     # Fetch views (worksheets/dashboards)
+#     views_df = get_views_dataframe(conn)
     
-    # Close connection after fetching data
-    conn.sign_out()
+#     # Close connection after fetching data
+#     conn.sign_out()
     
-    return views_df
+#     return views_df
 
-# Display the result in Streamlit
-views = tableau_login_and_fetch()
-if views is not None:
-    st.write(views)
+# # Display the result in Streamlit
+# views = tableau_login_and_fetch()
+# if views is not None:
+#     st.write(views)
 
 # if st.checkbox("Load Tableau Dashboard"):
 #     tableau_url = "hhttps://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
@@ -198,9 +198,9 @@ if st.button("Refresh Tableau Dashboard"):
 
 # tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
 
-# tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard/Sheet%2015#2"
+tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard/Sheet%2015#2"
 
-tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/views/Totesys_team_7_workbook/TotesysDashboard?:iid=3"
+# tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/views/Totesys_team_7_workbook/TotesysDashboard?:iid=3"
 
 if option == 'Yes':
     st.components.v1.iframe(tableau_url, width=1200, height=800)
