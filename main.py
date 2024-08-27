@@ -15,30 +15,9 @@ load_dotenv()
 
 # print(st.secrets)
 
-def get_connection():
-    try:
-        # First try to load from Streamlit Secrets (for production)
-        return Connection(
-            user=st.secrets["database"]["POSTGRES_USERNAME"],
-            password=st.secrets["database"]["POSTGRES_PASSWORD"],
-            database=st.secrets["database"]["POSTGRES_DATABASE"],
-            host=st.secrets["database"]["POSTGRES_HOSTNAME"],
-            port=int(st.secrets["database"]["POSTGRES_PORT"]),
-        )
-    except Exception:
-        # Fallback to local environment variables (for local development)
-        return Connection(
-            user=os.getenv("POSTGRES_USERNAME"),
-            password=os.getenv("POSTGRES_PASSWORD"),
-            database=os.getenv("POSTGRES_DATABASE"),
-            host=os.getenv("POSTGRES_HOSTNAME"),
-            port=int(os.getenv("POSTGRES_PORT")),
-        )
-
-
-
 # def get_connection():
-#     if st.secrets is not None:
+#     try:
+#         # First try to load from Streamlit Secrets (for production)
 #         return Connection(
 #             user=st.secrets["database"]["POSTGRES_USERNAME"],
 #             password=st.secrets["database"]["POSTGRES_PASSWORD"],
@@ -46,14 +25,35 @@ def get_connection():
 #             host=st.secrets["database"]["POSTGRES_HOSTNAME"],
 #             port=int(st.secrets["database"]["POSTGRES_PORT"]),
 #         )
-#     else:
+#     except Exception:
+#         # Fallback to local environment variables (for local development)
 #         return Connection(
-#                 user=os.getenv("POSTGRES_USERNAME"),
-#                 password=os.getenv("POSTGRES_PASSWORD"),
-#                 database=os.getenv("POSTGRES_DATABASE"),
-#                 host=os.getenv("POSTGRES_HOSTNAME"),
-#                 port=int(os.getenv("POSTGRES_PORT")),
-#             )
+#             user=os.getenv("POSTGRES_USERNAME"),
+#             password=os.getenv("POSTGRES_PASSWORD"),
+#             database=os.getenv("POSTGRES_DATABASE"),
+#             host=os.getenv("POSTGRES_HOSTNAME"),
+#             port=int(os.getenv("POSTGRES_PORT")),
+#         )
+
+
+
+def get_connection():
+    if st.secrets is not None:
+        return Connection(
+            user=st.secrets["database"]["POSTGRES_USERNAME"],
+            password=st.secrets["database"]["POSTGRES_PASSWORD"],
+            database=st.secrets["database"]["POSTGRES_DATABASE"],
+            host=st.secrets["database"]["POSTGRES_HOSTNAME"],
+            port=int(st.secrets["database"]["POSTGRES_PORT"]),
+        )
+    else:
+        return Connection(
+                user=os.getenv("POSTGRES_USERNAME"),
+                password=os.getenv("POSTGRES_PASSWORD"),
+                database=os.getenv("POSTGRES_DATABASE"),
+                host=os.getenv("POSTGRES_HOSTNAME"),
+                port=int(os.getenv("POSTGRES_PORT")),
+            )
 
 # def get_connection():
 #     return Connection(
@@ -134,55 +134,10 @@ st.write(df_filtered)
 st.subheader(f"Data from {selected_table_name}")
 
 data = get_data_from_table(selected_table_name)
-st.dataframe(data)
+st.dataframe(data)  # interactive tables
+# st.write(data)  # static table
 
 st.subheader("Streamlit Dashboard with Tableau Worksheets")
-
-
-# def tableau_login_and_fetch():
-#     # Access Tableau credentials from secrets
-#     tableau_username = st.secrets["tableau"]["username"]
-#     tableau_password = st.secrets["tableau"]["password"]
-#     server_url = st.secrets["tableau"]["server_url"]
-#     site_id = st.secrets["tableau"]["site_id"]
-
-#     # Set up Tableau connection
-#     config = {
-#         'my_env': {
-#             'server': server_url,
-#             'api_version': '3.22', 
-#             'username': tableau_username,
-#             'password': tableau_password,
-#             'site_name': site_id,
-#             'site_url': site_id
-#         }
-#     }
-
-#     conn = TableauServerConnection(config_json=config, env='my_env')
-#     conn.sign_in()
-    
-#     if not conn.auth_token:
-#         st.error("Authentication failed! No valid auth token was returned.")
-#         return None
-#     # Fetch views (worksheets/dashboards)
-#     views_df = get_views_dataframe(conn)
-    
-#     # Close connection after fetching data
-#     conn.sign_out()
-    
-#     return views_df
-
-# # Display the result in Streamlit
-# views = tableau_login_and_fetch()
-# if views is not None:
-#     st.write(views)
-
-# if st.checkbox("Load Tableau Dashboard"):
-#     tableau_url = "hhttps://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
-#     st.components.v1.iframe(tableau_url, width=1200, height=800)
-#     st.write("Tableau dashboard loaded!")
-# else:
-#     st.write("Click the checkbox to load the Tableau dashboard.")
 
 option = st.selectbox(
     'Would you like to load the Tableau dashboard?',
@@ -196,11 +151,8 @@ if 'refresh' not in st.session_state:
 if st.button("Refresh Tableau Dashboard"):
     st.session_state.refresh = True
 
-# tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
-
 tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard/Sheet%2015#2"
 
-# tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/views/Totesys_team_7_workbook/TotesysDashboard?:iid=3"
 
 if option == 'Yes':
     st.components.v1.iframe(tableau_url, width=1200, height=800)
