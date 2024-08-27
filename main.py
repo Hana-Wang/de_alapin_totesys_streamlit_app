@@ -1,46 +1,118 @@
+from pg8000.native import Connection
+from dotenv import load_dotenv
+import os
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# st.write("Hello World")
-# st.write(["array", "hello"])
-# st.write({"key": ["value"]} )
-# # st.write(object, or pandas dataframe)
+load_dotenv()
 
-st.title("Simple Data Dashboard")
+def get_connection():
+    return Connection(
+        user=os.getenv("POSTGRES_USERNAME"),
+        password=os.getenv("POSTGRES_PASSWORD"),
+        database=os.getenv("POSTGRES_DATABASE"),
+        host=os.getenv("POSTGRES_HOSTNAME"),
+        port=int(os.getenv("POSTGRES_PORT")),
+    )
 
-#create a file upload window widget, can change type, or multiple types
-uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+def run_query(query):
+    conn = get_connection()
+    result = conn.run(query)
+    conn.close()
+    return result
 
-#how we can use uploaded file and learn how streamlit works in backend
-if uploaded_file is not None:
-    # st.write("File uploaded....")
-    df = pd.read_csv(uploaded_file)
 
-    st.subheader("Data Preview")
-    st.write(df.head())
+def get_column_names_for_tables(tables):
+    # Create the SQL query to get column names for all tables
+    query = f"""
+        SELECT table_name, column_name
+        FROM information_schema.columns
+        WHERE table_name IN ({','.join([f"'{table}'" for table in tables])});
+    """
+    
+    connection = get_connection()
+    result = connection.run(query)
+    connection.close()
 
-    st.subheader("Data Summary")
-    st.write(df.describe())
+    # Convert the result into a DataFrame
+    df = pd.DataFrame(result, columns=['table_name', 'column_name'])
 
-    st.subheader("Filter Data")
-    columns = df.columns.tolist()
-    selected_column = st.selectbox("Select column to filter by", columns)
-    unique_values = df[selected_column].unique()
-    selected_value = st.selectbox("Select value", unique_values)
+    return df
 
-    filtered_df = df[df[selected_column] == selected_value]
-    st.write(filtered_df)
+def get_data_from_table(table_name, limit=10):
+    query = f"SELECT * FROM {table_name} LIMIT {limit};"
+    result = run_query(query)
+    df = pd.DataFrame(result)
+    
+    return df
 
-    st.subheader("Plot Data")
-    x_column = st.selectbox("Select x-axis column", columns)
-    y_column = st.selectbox("Select y-axis column", columns)
 
-    if st.button("Generate Line Plot"):
-       st.line_chart(filtered_df.set_index(x_column)[y_column])
 
+primary_key_columns = {
+    'fact_sales_order': 'sales_record_id',
+    'dim_staff': 'staff_id',
+    'dim_location': 'location_id',
+    'dim_design': 'design_id',
+    'dim_date': 'date_id',
+    'dim_currency': 'currency_id',
+    'dim_counterparty': 'counterparty_id'
+}
+
+
+st.title("Data Warehouse Dashboard")
+
+st.subheader("Data Warehouse Column Viewer")
+
+tables = list(primary_key_columns.keys())  #only table with known primary key are tables we are interested
+df_columns = get_column_names_for_tables(tables)
+
+selected_table_name = st.selectbox("Select table name to filter by", tables)
+
+# filtered_table_columns = df_columns[df_columns['table_name'] == selected_table_name]['column_name']
+filtered_table_columns = df_columns[df_columns['table_name'] == selected_table_name]
+
+primary_key_column = primary_key_columns[selected_table_name]
+
+df_filtered = filtered_table_columns.set_index(
+    filtered_table_columns['column_name'] == primary_key_column)['column_name']
+
+
+st.write(f"Columns in the selected table {selected_table_name}")
+st.write(df_filtered)
+
+# Fetch and display the actual data from the selected table
+st.subheader(f"Data from {selected_table_name}")
+
+data = get_data_from_table(selected_table_name)
+st.dataframe(data)
+
+st.subheader("Streamlit Dashboard with Tableau Worksheets")
+
+# if st.checkbox("Load Tableau Dashboard"):
+#     tableau_url = "hhttps://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
+#     st.components.v1.iframe(tableau_url, width=1200, height=800)
+#     st.write("Tableau dashboard loaded!")
+# else:
+#     st.write("Click the checkbox to load the Tableau dashboard.")
+
+option = st.selectbox(
+    'Would you like to load the Tableau dashboard?',
+    ('No', 'Yes')
+)
+
+st.subheader("Refresh tableau worksheet")
+if 'refresh' not in st.session_state:
+    st.session_state.refresh = False
+
+if st.button("Refresh Tableau Dashboard"):
+    st.session_state.refresh = True
+
+tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
+
+if option == 'Yes'and st.session_state.refresh:
+    st.components.v1.iframe(tableau_url, width=1200, height=800)
+    st.write("Tableau dashboard loaded and refreshed.")
 else:
-    st.write("Waiting on file upload ....")
-
-
-
+    st.write("Select 'Yes' to load the Tableau dashboard.")

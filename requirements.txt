@@ -1,3 +1,5 @@
 streamlit
 pandas
 matplotlib
+pg8000
+python-dotenv
