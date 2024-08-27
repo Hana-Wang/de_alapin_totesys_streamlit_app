@@ -152,7 +152,7 @@ if st.button("Refresh Tableau Dashboard"):
 
 tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard#4"
 
-if option == 'Yes'and st.session_state.refresh:
+if option == 'Yes':
     st.components.v1.iframe(tableau_url, width=1200, height=800)
     st.write("Tableau dashboard loaded and refreshed.")
 else:
