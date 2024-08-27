@@ -8,14 +8,55 @@ import matplotlib.pyplot as plt
 
 load_dotenv()
 
+# print(st.secrets)
+
 def get_connection():
-    return Connection(
-        user=os.getenv("POSTGRES_USERNAME"),
-        password=os.getenv("POSTGRES_PASSWORD"),
-        database=os.getenv("POSTGRES_DATABASE"),
-        host=os.getenv("POSTGRES_HOSTNAME"),
-        port=int(os.getenv("POSTGRES_PORT")),
-    )
+    try:
+        # First try to load from Streamlit Secrets (for production)
+        return Connection(
+            user=st.secrets["database"]["POSTGRES_USERNAME"],
+            password=st.secrets["database"]["POSTGRES_PASSWORD"],
+            database=st.secrets["database"]["POSTGRES_DATABASE"],
+            host=st.secrets["database"]["POSTGRES_HOSTNAME"],
+            port=int(st.secrets["database"]["POSTGRES_PORT"]),
+        )
+    except Exception:
+        # Fallback to local environment variables (for local development)
+        return Connection(
+            user=os.getenv("POSTGRES_USERNAME"),
+            password=os.getenv("POSTGRES_PASSWORD"),
+            database=os.getenv("POSTGRES_DATABASE"),
+            host=os.getenv("POSTGRES_HOSTNAME"),
+            port=int(os.getenv("POSTGRES_PORT")),
+        )
+
+# def get_connection():
+#     if st.secrets is not None:
+#         return Connection(
+#             user=st.secrets["database"]["POSTGRES_USERNAME"],
+#             password=st.secrets["database"]["POSTGRES_PASSWORD"],
+#             database=st.secrets["database"]["POSTGRES_DATABASE"],
+#             host=st.secrets["database"]["POSTGRES_HOSTNAME"],
+#             port=int(st.secrets["database"]["POSTGRES_PORT"]),
+#         )
+#     else:
+#         return Connection(
+#                 user=os.getenv("POSTGRES_USERNAME"),
+#                 password=os.getenv("POSTGRES_PASSWORD"),
+#                 database=os.getenv("POSTGRES_DATABASE"),
+#                 host=os.getenv("POSTGRES_HOSTNAME"),
+#                 port=int(os.getenv("POSTGRES_PORT")),
+#             )
+
+# def get_connection():
+#     return Connection(
+#                 user=os.getenv("POSTGRES_USERNAME"),
+#                 password=os.getenv("POSTGRES_PASSWORD"),
+#                 database=os.getenv("POSTGRES_DATABASE"),
+#                 host=os.getenv("POSTGRES_HOSTNAME"),
+#                 port=int(os.getenv("POSTGRES_PORT")),
+#             )
+
 
 def run_query(query):
     conn = get_connection()
