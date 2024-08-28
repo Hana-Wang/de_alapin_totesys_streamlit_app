@@ -427,9 +427,9 @@ tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/auth
 
 # tableau_url = "https://prod-uk-a.online.tableau.com/#/site/beveridgerraa063aab21/workbooks/1243788/views"
 
-tableau_url_another = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard2#2"
+# tableau_url_another = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard2#2"
 
-# tableau_url_another = "https://prod-uk-a.online.tableau.com/#/site/beveridgerraa063aab21/workbooks/1243788/views"
+# # tableau_url_another = "https://prod-uk-a.online.tableau.com/#/site/beveridgerraa063aab21/workbooks/1243788/views"
 
 
 if option == 'Yes':
@@ -440,4 +440,4 @@ else:
 
 
 ############
-st.markdown(f'[Click here to open the Tableau Dashboard in a new tab]({tableau_url_another})')
+# st.markdown(f'[Click here to open the Tableau Dashboard in a new tab]({tableau_url_another})')
