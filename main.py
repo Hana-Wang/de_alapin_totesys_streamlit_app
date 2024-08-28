@@ -425,11 +425,19 @@ if st.button("Refresh Tableau Dashboard"):
 
 tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard/Sheet%2015#2"
 
+# tableau_url = "https://prod-uk-a.online.tableau.com/#/site/beveridgerraa063aab21/workbooks/1243788/views"
 
-# tableau_url = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard2#2"
+tableau_url_another = "https://prod-uk-a.online.tableau.com/t/beveridgerraa063aab21/authoring/Totesys_team_7_workbook/TotesysDashboard2#2"
+
+# tableau_url_another = "https://prod-uk-a.online.tableau.com/#/site/beveridgerraa063aab21/workbooks/1243788/views"
+
 
 if option == 'Yes':
     st.components.v1.iframe(tableau_url, width=1200, height=800)
     st.write("Tableau dashboard loaded and refreshed.")
 else:
     st.write("Select 'Yes' to load the Tableau dashboard.")
+
+
+############
+st.markdown(f'[Click here to open the Tableau Dashboard in a new tab]({tableau_url_another})')
