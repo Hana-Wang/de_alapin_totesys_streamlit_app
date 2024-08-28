@@ -408,6 +408,9 @@ if st.button("Run Sales Analysis"):
 
 ############
 st.subheader("Streamlit Dashboard Website Link")
+
+tableau_url_another = "https://prod-uk-a.online.tableau.com/#/site/beveridgerraa063aab21/views/Totesys_team_7_workbook/TotesysDashboard2?:iid=1"
+
 st.markdown(f'[Click here to open the Tableau Dashboard in a new tab]({tableau_url_another})')
 
 
