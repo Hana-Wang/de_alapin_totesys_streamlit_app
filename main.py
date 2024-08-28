@@ -406,15 +406,22 @@ if st.button("Run Sales Analysis"):
 
 
 
+############
+st.subheader("Streamlit Dashboard Website Link")
+st.markdown(f'[Click here to open the Tableau Dashboard in a new tab]({tableau_url_another})')
+
+
 
 #############Embeded Tableau############
 
 st.subheader("Streamlit Dashboard with Tableau Worksheets")
 
+
 option = st.selectbox(
     'Would you like to load the Tableau dashboard?',
     ('No', 'Yes')
 )
+
 
 st.subheader("Refresh tableau worksheet")
 if 'refresh' not in st.session_state:
@@ -441,5 +448,4 @@ else:
     st.write("Select 'Yes' to load the Tableau dashboard.")
 
 
-############
-# st.markdown(f'[Click here to open the Tableau Dashboard in a new tab]({tableau_url_another})')
+
