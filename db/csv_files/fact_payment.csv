@@ -1,1 +1,0 @@
-payment_record_id,payment_id,created_date,created_time,last_updated_date,last_updated_time,transaction_id,counterparty_id,payment_amount,currency_id,payment_type_id,paid,payment_date
