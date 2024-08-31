@@ -2,4 +2,4 @@
 headless = true
 port = $PORT
 enableCORS = false
-scriptPath = "streamlit_app/app.py"
+scriptPath = "streamlit_app/main.py"
