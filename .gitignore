@@ -1,4 +1,15 @@
 venv/
 **/*pycache
+**/__pycache__/
+
 .env*
 .streamlit/secrets.toml
+
+db/
+responses_files/
+dependencies/
+packages/
+
+**/.terraform*
+terraform/init.sh
+*.tfstate*
