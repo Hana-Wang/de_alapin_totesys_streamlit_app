@@ -1,9 +1,10 @@
+from io import BytesIO
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import pyarrow as pa 
 import boto3
-from io import BytesIO
+
 from streamlit_app.s3_loader import load_data_from_s3
 from dotenv import load_dotenv
 import os
