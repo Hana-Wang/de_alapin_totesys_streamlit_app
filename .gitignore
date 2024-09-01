@@ -4,6 +4,7 @@ venv/
 
 .env*
 .streamlit/secrets.toml
+.streamlit/config.toml
 
 db/
 responses_files/
