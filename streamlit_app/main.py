@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pyarrow as pa 
 import boto3
 
-from streamlit_app.s3_loader import load_data_from_s3
+from s3_loader import load_data_from_s3
 from dotenv import load_dotenv
 import os
 
