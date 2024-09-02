@@ -15,9 +15,13 @@ load_dotenv()
 
 BUCKET_NAME = os.environ.get("DATA_BUCKET_NAME")
 
+print("BUCKET_NAME:", BUCKET_NAME)
+print("AWS_ACCESS_KEY_ID:", AWS_ACCESS_KEY_ID)
+print("AWS_SECRET_ACCESS_KEY:", AWS_SECRET_ACCESS_KEY)
+print("AWS_DEFAULT_REGION:", AWS_DEFAULT_REGION)
 
-def load_data_from_s3(bucket_name, s3_folder="", aws_access_key_id="",  
-                      aws_secret_access_key="", region_name=""):
+def load_data_from_s3(bucket_name, s3_folder="", aws_access_key_id=None,    aws_secret_access_key=None, region_name=None):
+
     """
     Loads the most recent parquet files from an S3 bucket
 
@@ -30,10 +34,10 @@ def load_data_from_s3(bucket_name, s3_folder="", aws_access_key_id="",
     """
 
     s3_client = boto3.client(
-                    's3',
-                    aws_access_key_id=aws_access_key_id,
-                    aws_secret_access_key=aws_secret_access_key,
-                    region_name=region_name
+            's3',
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            region_name=region_name
     )
 
     data = {}
