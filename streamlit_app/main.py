@@ -24,6 +24,13 @@ BUCKET_NAME = get_env_var('DATA_BUCKET_NAME')
 
 s3_folder = "db/parquet_files"
 
+
+st.write("BUCKET_NAME:", BUCKET_NAME)
+st.write("AWS_ACCESS_KEY_ID:", AWS_ACCESS_KEY_ID)
+st.write("AWS_SECRET_ACCESS_KEY:", AWS_SECRET_ACCESS_KEY)
+st.write("AWS_DEFAULT_REGION:", AWS_DEFAULT_REGION)
+
+
 data = load_data_from_s3(BUCKET_NAME, s3_folder, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION)
 
 
