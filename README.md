@@ -19,6 +19,7 @@ This project is a data app that loads parquet table data from AWS S3 and provide
   - `s3.tf`: infrastructure of aws s3
 - **.github/**: Contains GitHub Actions workflows for CI/CD.
   - `deploy.yml`: Workflow to automate data upload and app deployment.
+- **requirements.txt**: third party dependencies for the projects.
 - **Makefile**: Automates tasks like setting up the environment, running the app, and deploying.
 - **.gitignore**: Specifies files and directories to ignore in version control.
 - **README.md**: Project documentation and instructions.
