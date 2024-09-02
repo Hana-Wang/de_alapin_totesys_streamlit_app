@@ -24,7 +24,7 @@ BUCKET_NAME = get_env_var('DATA_BUCKET_NAME')
 s3_folder = "db/parquet_files"
 
 # st.session_state.data = load_data_from_s3(BUCKET_NAME, s3_folder, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION)
-
+##
 # Initialize session state for data storage
 if 'data' not in st.session_state:
     st.session_state.data = load_data_from_s3(BUCKET_NAME, s3_folder, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION)
