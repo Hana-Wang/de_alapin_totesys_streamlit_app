@@ -30,7 +30,7 @@ You can access the Real time version of the data app using the following link:
 [Real time Data App](https://de-alapin-totesys-team-data-app.streamlit.app/)
 
 
-## Further development Later----Automating with Makefile
+## Automating with Makefile
 The Makefile included in this project automates common tasks:
 
 
