@@ -1,6 +1,6 @@
 ## Data Warehouse Dashboard Project
 
-This project is a Streamlit app that loads parquet table data from AWS S3 and provides a dashboard for viewing data. The project also includes an upload script for uploading data to S3, an tranfer_data script for transferring table data from PostgreSQL to tables in the formats including parquet, csv and json.
+This project is a data app that loads parquet table data from AWS S3 and provides a dashboard for viewing data. The project also includes an upload script for uploading data to S3, an tranfer_data script for transferring table data from PostgreSQL to tables in the formats including parquet, csv and json.
 
 ## File Structure
 
