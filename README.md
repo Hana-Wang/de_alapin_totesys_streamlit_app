@@ -46,3 +46,9 @@ The workflow will:
 4. Load data from parquet files in S3 to dataframe.
 5. Deploy the Streamlit app.
 
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
