@@ -16,7 +16,8 @@ load_dotenv()
 BUCKET_NAME = os.environ.get("DATA_BUCKET_NAME")
 
 
-def load_data_from_s3(bucket_name, s3_folder=""):
+def load_data_from_s3(bucket_name, s3_folder="", aws_access_key_id, aws_secret_access_key,  
+                      region_name):
     """
     Loads the most recent parquet files from an S3 bucket
 
@@ -28,7 +29,13 @@ def load_data_from_s3(bucket_name, s3_folder=""):
     - dict: A dictionary where keys are table names and values are pandas DataFrames
     """
 
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client(
+                    's3',
+                    aws_access_key_id=aws_access_key_id,
+                    aws_secret_access_key=aws_secret_access_key,
+                    region_name=region_name
+    )
+    
     data = {}
 
     tables = ['fact_sales_order', 'dim_staff', 'dim_location', 'dim_design', 'dim_date', 'dim_currency', 'dim_counterparty']
