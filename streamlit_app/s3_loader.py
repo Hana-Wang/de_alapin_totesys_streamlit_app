@@ -1,3 +1,4 @@
+import streamlit as st
 import boto3
 import pandas as pd
 from io import BytesIO
@@ -15,10 +16,10 @@ load_dotenv()
 
 BUCKET_NAME = os.environ.get("DATA_BUCKET_NAME")
 
-print("BUCKET_NAME:", BUCKET_NAME)
-print("AWS_ACCESS_KEY_ID:", AWS_ACCESS_KEY_ID)
-print("AWS_SECRET_ACCESS_KEY:", AWS_SECRET_ACCESS_KEY)
-print("AWS_DEFAULT_REGION:", AWS_DEFAULT_REGION)
+st.write("BUCKET_NAME:", st.secrets["DATA_BUCKET_NAME"])
+st.write("AWS_ACCESS_KEY_ID:", st.secrets["AWS_ACCESS_KEY_ID"])
+st.write("AWS_SECRET_ACCESS_KEY:", st.secrets["AWS_SECRET_ACCESS_KEY"])
+st.write("AWS_DEFAULT_REGION:", st.secrets["AWS_DEFAULT_REGION"])
 
 def load_data_from_s3(bucket_name, s3_folder="", aws_access_key_id=None,    aws_secret_access_key=None, region_name=None):
 
