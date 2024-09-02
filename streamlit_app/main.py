@@ -13,8 +13,7 @@ if os.path.exists('.env'):
     load_dotenv()
 
 def get_env_var(var_name, default=None):
-    return os.getenv(var_name) or st.secrets.get(var_name, default)
-
+    return os.getenv(var_name) or st.secrets["aws"].get(var_name, default)
 # BUCKET_NAME = os.environ.get("DATA_BUCKET_NAME")
 
 AWS_ACCESS_KEY_ID = get_env_var('AWS_ACCESS_KEY_ID')
